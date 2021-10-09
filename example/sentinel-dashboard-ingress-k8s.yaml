@@ -41,7 +41,7 @@ metadata:
   name: sentinel-dashboard
 spec:
   serviceName: sentinel-dashboard-headless
-  replicas: 3
+  replicas: 1
   template:
     metadata:
       labels:
