@@ -75,11 +75,6 @@ Run the following command：
 | TOMCAT_ACCESSLOG_ENABLED                            | server.tomcat.accesslog.enabled        | default :false                         |
 | SENTINEL_DASHBOARD_COOKIE                           |  cookie name setting                   | default :sentinel_dashboard_cookie     |
 
-
-## Advanced configuration
-
-If the above property configuration list does not meet your requirements, you can mount the `sentinel.properties` file into the `/home/sentinel/init.d/` directory of the container, where the spring properties can be configured, and the priority is higher than `application.properties` file
-
-Reference example: [sentinel-dashboard.yaml](/example/sentinel-dashboard.yaml)
+Reference example: [sentinel-dashboard.yaml](https://github.com/solvaysphere/sentinel-dashboard-docker/blob/master/example/sentinel-dashboard.yaml)
 
 

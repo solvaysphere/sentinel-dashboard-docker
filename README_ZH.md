@@ -78,10 +78,5 @@
 | SENTINEL_DASHBOARD_COOKIE                          |  cookie name setting                            | 默认 :sentinel_dashboard_cookie  |
 
 
-
-## 高级配置
-
-如果上面的属性列表无法满足你的需求时,可以挂载`sentinel.properties`到`/home/sentinel/init.d/` 目录,然后在里面像使用Spring Boot的`application.properties`文件一样配置属性, 并且这个文件配置的属性**优先级高于application.properties**
-
-参考例子: [sentinel-dashboard.yaml](/example/sentinel-dashboard.yaml)
+参考例子: [sentinel-dashboard.yaml](https://github.com/solvaysphere/sentinel-dashboard-docker/blob/master/example/sentinel-dashboard.yaml)
 
