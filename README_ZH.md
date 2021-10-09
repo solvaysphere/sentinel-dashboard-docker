@@ -1,6 +1,6 @@
 # Sentinel Dashboard Docker
 
-本项目是 [Sentinel](https://github.com/alibaba/Sentinel) Server的docker镜像的build源码,以及Sentinel Dashboard server 在docker的单机的运行例子.
+本项目是 [Sentinel Dashboard](https://github.com/alibaba/Sentinel/wiki/%E6%8E%A7%E5%88%B6%E5%8F%B0) Server的docker镜像的build源码,以及Sentinel Dashboard server 在docker的单机的运行例子.
 
 
 
@@ -11,11 +11,9 @@
 * example: docker-compose编排例子
 
 
-
 ## 运行环境
 
 * [Docker](https://www.docker.com/)
-
 
 
 ## 快速开始

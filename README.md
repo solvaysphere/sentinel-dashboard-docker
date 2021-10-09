@@ -1,8 +1,7 @@
 # Sentinel Dashboard Docker
+![Docker Stars](https://img.shields.io/docker/stars/solvaysphere/sentinel-dashboard.svg) ![Docker Pulls](https://img.shields.io/docker/pulls/solvaysphere/sentinel-dashboard.svg) ![Docker Image Size](https://img.shields.io/docker/image-size/solvaysphere/sentinel-dashboard/latest) ![Docker Version](https://img.shields.io/docker/v/solvaysphere/sentinel-dashboard/latest)
 
-![Docker Pulls](https://img.shields.io/docker/pulls/solvaysphere/sentinel-dashboard.svg?maxAge=60480)
-
-This project contains a Docker image meant to facilitate the deployment of [Sentinel](https://github.com/alibaba/Sentinel).
+This project contains a Docker image meant to facilitate the deployment of [Sentinel Dashboard](https://github.com/alibaba/Sentinel/wiki/Dashboard).
 
 [**中文**](README_ZH.md)
 
