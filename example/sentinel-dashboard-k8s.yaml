@@ -1,0 +1,141 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sentinel-dashboard-headless
+  labels:
+    app: sentinel-dashboard-headless
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - port: 8080
+      name: server
+      targetPort: 8080
+  selector:
+    app: sentinel-dashboard
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sentinel-dashboard-cm
+data:
+  server.port: "8080"
+  context.path: "/"
+  cookie.name: "sentinel_dashboard_cookie"
+  session.timeout: "7200"
+  auth.username: "sentinel"
+  auth.password: "sentinel"
+  dashboard.server: "127.0.0.1:8080"
+  project.name: "sentinel-dashboard"
+  auth.enabled: "true"
+  dashboard.app.hideappnomachinemillis: "0"
+  dashboard.removeappnomachinemillis: "0"
+  dashboard.unhealthymachinemillis: "60000"
+  dashboard.autoremovemachinemillis: "0"
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: sentinel-dashboard
+spec:
+  serviceName: sentinel-dashboard-headless
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: sentinel-dashboard
+      annotations:
+        pod.alpha.kubernetes.io/initialized: "true"
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: "app"
+                    operator: In
+                    values:
+                      - sentinel-dashboard
+              topologyKey: "kubernetes.io/hostname"
+      containers:
+        - name: k8ssentinel-dashboard
+          imagePullPolicy: Always
+          image: solvaysphere/sentinel-dashboard:1.8.2
+          resources:
+            requests:
+              memory: "2Gi"
+              cpu: "500m"
+          ports:
+            - containerPort: 8080
+              name: client
+          env:
+            - name: SERVER_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: sentinel-dashboard-cm
+                  key: server.port
+            - name: CONTEXT_PATH
+              valueFrom:
+                configMapKeyRef:
+                  name: sentinel-dashboard-cm
+                  key: context.path
+            - name: SENTINEL_DASHBOARD_COOKIE_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: sentinel-dashboard-cm
+                  key: cookie.name
+            - name: SENTINEL_DASHBOARD_SESSION_TIMEOUT
+              valueFrom:
+                configMapKeyRef:
+                  name: sentinel-dashboard-cm
+                  key: session.timeout
+            - name: SENTINEL_AUTH_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: sentinel-dashboard-cm
+                  key: auth.username
+            - name: SENTINEL_AUTH_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: sentinel-dashboard-cm
+                  key: auth.password
+            - name: SENTINEL_DASHBOARD_SERVER
+              valueFrom:
+                configMapKeyRef:
+                  name: sentinel-dashboard-cm
+                  key: dashboard.server
+            - name: SENTINEL_DASHBOARD_PROJECT_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: sentinel-dashboard-cm
+                  key: project.name
+            - name: AUTH_ENABLED
+              valueFrom:
+                configMapKeyRef:
+                  name: sentinel-dashboard-cm
+                  key: auth.enabled
+            - name: SENTINEL_DASHBOARD_APP_HIDEAPPNOMACHINEMILLIS
+              valueFrom:
+                configMapKeyRef:
+                  name: sentinel-dashboard-cm
+                  key: dashboard.app.hideappnomachinemillis
+            - name: SENTINEL_DASHBOARD_REMOVEAPPNOMACHINEMILLIS
+              valueFrom:
+                configMapKeyRef:
+                  name: sentinel-dashboard-cm
+                  key: dashboard.removeappnomachinemillis
+            - name: SENTINEL_DASHBOARD_UNHEALTHYMACHINEMILLIS
+              valueFrom:
+                configMapKeyRef:
+                  name: sentinel-dashboard-cm
+                  key: dashboard.unhealthymachinemillis
+            - name: SENTINEL_DASHBOARD_AUTOREMOVEMACHINEMILLIS
+              valueFrom:
+                configMapKeyRef:
+                  name: sentinel-dashboard-cm
+                  key: dashboard.autoremovemachinemillis
+  selector:
+    matchLabels:
+      app: sentinel-dashboard

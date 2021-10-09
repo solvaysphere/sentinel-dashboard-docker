@@ -1,0 +1,39 @@
+FROM amd64/buildpack-deps:buster-curl as installer
+
+ARG SENTINEL_VERSION=1.8.2
+ARG HOT_FIX_FLAG=""
+
+RUN set -x \
+    && curl -SL --output /var/tmp/sentinel-dashboard.jar https://github.com/alibaba/Sentinel/releases/download/${SENTINEL_VERSION}${HOT_FIX_FLAG}/sentinel-dashboard-${SENTINEL_VERSION}.jar \
+
+FROM openjdk:8-jre-slim
+
+# set environment
+ENV BASE_DIR="/home/sentinel" \
+    CLASSPATH=".:/home/sentinel/conf:$CLASSPATH" \
+    SENTINEL_USER="sentinel" \
+    JAVA="/usr/local/openjdk-8/bin/java" \
+    JVM_XMS="1g" \
+    JVM_XMX="1g" \
+    JVM_XMN="512m" \
+    JVM_MS="128m" \
+    JVM_MMS="320m" \
+    NACOS_DEBUG="n" \
+    TOMCAT_ACCESSLOG_ENABLED="false" \
+    TZ="Asia/Shanghai"
+
+RUN mkdir -p $BASE_DIR/conf
+
+WORKDIR $BASE_DIR
+
+# copy nacos bin
+COPY --from=installer ["/home/sentinel", "/home/sentinel"]
+
+ADD bin/docker-startup.sh bin/docker-startup.sh
+ADD conf/application.properties conf/application.properties
+ADD conf/sentinel.properties conf/sentinel.properties
+
+RUN chmod +x bin/docker-startup.sh
+
+EXPOSE 8080
+ENTRYPOINT ["bin/docker-startup.sh"]

@@ -1,0 +1,29 @@
+version:1.8.2
+新属性
+###*************** Add from 1.8.2 ***************###
+
+
+#*************** Core Related Configurations ***************#
+| name                                                | description                            | option                                 |
+| --------------------------------------------------- | -------------------------------------- | -------------------------------------- |
+| SERVER_PORT                                         | server port                            | default **8080**                 |
+| CONTEXT_PATH                                        | context path                           | default **/**                    |
+| SENTINEL_DASHBOARD_SESSION_TIMEOUT                  | session timeout                        | default **7200**                       |
+| SENTINEL_DASHBOARD_COOKIE_NAME                      | cookie name                            | default **sentinel_dashboard_cookie**  |
+| SENTINEL_AUTH_USERNAME                              | sentinel dashboard name                | default **sentinel**             |
+| SENTINEL_AUTH_PASSWORD                              | Sentinel Dashboard password            | default **sentinel**             |
+| SENTINEL_DASHBOARD_SERVER                           | Sentinel Dashboard Server Addr         | default 127.0.0.1:8080              |
+| SENTINEL_DASHBOARD_PROJECT_NAME                     | project name                           | default sentinel-dashboard          |
+| AUTH_ENABLED                                        | auth                                   | default true                        |
+| SENTINEL_DASHBOARD_APP_HIDEAPPNOMACHINEMILLIS       | hideAppNoMachineMillis                 | default 0    min value: 60000  |
+| SENTINEL_DASHBOARD_REMOVEAPPNOMACHINEMILLIS         | removeAppNoMachineMillis               | default 0     min value: 120000  |
+| SENTINEL_DASHBOARD_UNHEALTHYMACHINEMILLIS           | unhealthyMachineMillis                 | default 60000     min value: 30000  |
+| SENTINEL_DASHBOARD_AUTOREMOVEMACHINEMILLIS          | autoRemoveMachineMillis                | default 0     min value: 300000  |
+| JVM_XMS                                             |  -Xms                                  | default :1g                            |
+| JVM_XMX                                             |  -Xmx                                  | default :1g                            |
+| JVM_XMN                                             |  -Xmn                                  | default :512m                          |
+| JVM_MS                                              |  -XX:MetaspaceSize                     | default :128m                          |
+| JVM_MMS                                             |  -XX:MaxMetaspaceSize                  | default :320m                          |
+| SENTINEL_DEBUG                                      |  enable remote debug                   | y/n default :n                         |
+| TOMCAT_ACCESSLOG_ENABLED                            | server.tomcat.accesslog.enabled        | default :false                         |
+| SENTINEL_DASHBOARD_COOKIE                           |  cookie name setting                   | default :sentinel_dashboard_cookie     |

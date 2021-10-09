@@ -1,0 +1,13 @@
+version: "3"
+services:
+  sentinel-dashboard:
+    hostname: sentinel-dashboard
+    container_name: sentinel-dashboard
+    image: solvaysphere/sentinel-dashboard:${SENTINEL_VERSION}
+    volumes:
+      - ./logs:/home/sentinel/logs
+    ports:
+      - "8080:8080"
+    env_file:
+      - ../env/sentinel-dashboard.env
+    restart: always
