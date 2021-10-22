@@ -1,33 +1,24 @@
 # Sentinel Dashboard Docker
-![Docker Stars](https://img.shields.io/docker/stars/solvaysphere/sentinel-dashboard.svg?color=green) ![Docker Pulls](https://img.shields.io/docker/pulls/solvaysphere/sentinel-dashboard.svg) ![Docker Image Size](https://img.shields.io/docker/image-size/solvaysphere/sentinel-dashboard/latest?color=green) ![Docker Version](https://img.shields.io/docker/v/solvaysphere/sentinel-dashboard/latest)
 
-This project contains a Docker image meant to facilitate the deployment of [Sentinel Dashboard](https://github.com/alibaba/Sentinel/wiki/Dashboard).
+本项目是 [Sentinel Dashboard](https://github.com/alibaba/Sentinel/wiki/%E6%8E%A7%E5%88%B6%E5%8F%B0) Server的docker镜像的build源码,以及Sentinel Dashboard server 在docker的单机的运行例子.
 
-[**中文**](README_ZH.md)
+[**英文**](README_EN.md)
 
-## Project directory
+## 项目目录
 
-* build：Sentinel Dashboard makes the source code of the docker image
-* env: Environment variable file for compose yaml
-* example: Docker compose example for Nacos server
-
-
-## Quick Start
-
-```shell
-docker run --name sentinel-dashboard-quick  -p 8080:8080 -d solvaysphere/sentinel-dashboard:1.8.2
-```
+* build：Sentinel Dashboard 镜像制作的源码
+* env: docker compose 环境变量文件
+* example: docker-compose编排例子
 
 
-## Advanced Usage
+## 运行环境
 
-* Tips: You can change the version of the Sentinel Dashboard image in the compose file from the following configuration.
-`example/.env`
-```dotenv
-SENTINEL_VERSION=1.8.2
-```
+* [Docker](https://www.docker.com/)
 
-Run the following command：
+
+## 快速开始
+
+打开命令窗口执行：
 
 * Clone project
 
@@ -35,7 +26,17 @@ Run the following command：
   git clone --depth 1 https://github.com/solvaysphere/sentinel-dashboard-docker.git
   cd sentinel-dashboard-docker
   ```
-
+  
+* Build Image
+  ```powershell
+  cd build
+  docker build -t solvaysphere/sentinel-dashboard:1.8.2 -f build/Dockerfile .
+  ```  
+    
+* Run With docker
+  ```powershell
+  docker run -p 8080:8080 -it solvaysphere/sentinel-dashboard:1.8.2
+  ```  
 
 * Standalone
 
@@ -43,38 +44,39 @@ Run the following command：
   docker-compose -f example/sentinel-dashboard.yaml up
   ```
 
-* Open the Sentinel Dashboard console in your browser
-  
+* 打开浏览器
+
   link：http://127.0.0.1:8080
 
 
+## 属性配置列表
 
-## Common property configuration 
 
-| name                                                | description                            | option                                 |
-| --------------------------------------------------- | -------------------------------------- | -------------------------------------- |
-| SERVER_PORT                                         | server port                            | default **8080**                 |
-| CONTEXT_PATH                                        | context path                           | default **/**                    |
-| SENTINEL_DASHBOARD_SESSION_TIMEOUT                  | session timeout                        | default **7200**                       |
-| SENTINEL_DASHBOARD_COOKIE_NAME                      | cookie name                            | default **sentinel_dashboard_cookie**  |
-| SENTINEL_AUTH_USERNAME                              | sentinel dashboard name                | default **sentinel**             |
-| SENTINEL_AUTH_PASSWORD                              | Sentinel Dashboard password            | default **sentinel**             |
-| SENTINEL_DASHBOARD_SERVER                           | Sentinel Dashboard Server Addr         | default 127.0.0.1:8080              |
-| SENTINEL_DASHBOARD_PROJECT_NAME                     | project name                           | default sentinel-dashboard          |
-| AUTH_ENABLED                                        | auth                                   | default true                        |
-| SENTINEL_DASHBOARD_APP_HIDEAPPNOMACHINEMILLIS       | hideAppNoMachineMillis                 | default 0    min value: 60000  |
-| SENTINEL_DASHBOARD_REMOVEAPPNOMACHINEMILLIS         | removeAppNoMachineMillis               | default 0     min value: 120000  |
-| SENTINEL_DASHBOARD_UNHEALTHYMACHINEMILLIS           | unhealthyMachineMillis                 | default 60000     min value: 30000  |
-| SENTINEL_DASHBOARD_AUTOREMOVEMACHINEMILLIS          | autoRemoveMachineMillis                | default 0     min value: 300000  |
-| JVM_XMS                                             |  -Xms                                  | default :1g                            |
-| JVM_XMX                                             |  -Xmx                                  | default :1g                            |
-| JVM_XMN                                             |  -Xmn                                  | default :512m                          |
-| JVM_MS                                              |  -XX:MetaspaceSize                     | default :128m                          |
-| JVM_MMS                                             |  -XX:MaxMetaspaceSize                  | default :320m                          |
-| SENTINEL_DEBUG                                      |  enable remote debug                   | y/n default :n                         |
-| TOMCAT_ACCESSLOG_ENABLED                            | server.tomcat.accesslog.enabled        | default :false                         |
-| SENTINEL_DASHBOARD_COOKIE                           |  cookie name setting                   | default :sentinel_dashboard_cookie     |
 
-Reference example: [sentinel-dashboard.yaml](https://github.com/solvaysphere/sentinel-dashboard-docker/blob/master/example/sentinel-dashboard.yaml)
+| 属性名称                                            | 描述                                             | 选项                              |
+| -------------------------------------------------- | ----------------------------------------------- | ------------------------------- |
+| SERVER_PORT                                        | server启动的端口                                 | 默认 **8080**                    |
+| CONTEXT_PATH                                       | CONTEXT PATH                                    | 默认 **/**                       |
+| SENTINEL_DASHBOARD_SESSION_TIMEOUT                 | SESSION TIMEOUT                                 | 默认 **7200**                       |
+| SENTINEL_DASHBOARD_COOKIE_NAME                     | COOKIE NAME                                     | 默认 **sentinel_dashboard_cookie**  |
+| SENTINEL_AUTH_USERNAME                             | Sentinel Dashboard用户名称                        | 默认 **sentinel**                |
+| SENTINEL_AUTH_PASSWORD                             | Sentinel Dashboard用户密码                        | 默认 **sentinel**                |
+| SENTINEL_DASHBOARD_SERVER                          | 访问服务端连接地址                                 | 默认 127.0.0.1:8080              |
+| SENTINEL_DASHBOARD_PROJECT_NAME                    | 项目名称                                          | 默认 sentinel-dashboard          |
+| AUTH_ENABLED                                       | 是否开启登录鉴权,仅用于日常测试，生产上不建议关闭      | 默认 true                        |
+| SENTINEL_DASHBOARD_APP_HIDEAPPNOMACHINEMILLIS      | 是否隐藏无健康节点的应用,距离最近一次主机心跳时间的毫秒数，默认关闭  | 默认 0    最小值: 60000  |
+| SENTINEL_DASHBOARD_REMOVEAPPNOMACHINEMILLIS        | 是否自动删除无健康节点的应用，距离最近一次其下节点的心跳时间毫秒数，默认关闭  | 默认 0    最小值: 120000  |
+| SENTINEL_DASHBOARD_UNHEALTHYMACHINEMILLIS          | 主机失联判定，不可关闭                                    | 默认 60000    最小值: 30000  |
+| SENTINEL_DASHBOARD_AUTOREMOVEMACHINEMILLIS         | 距离最近心跳时间超过指定时间是否自动删除失联节点，默认关闭        | 默认 0    最小值: 300000  |
+| JVM_XMS                                            | -Xms                                            | 默认 :1g                         |
+| JVM_XMX                                            | -Xmx                                            | 默认 :1g                         |
+| JVM_XMN                                            | -Xmn                                            | 默认 :512m                       |
+| JVM_MS                                             | -XX:MetaspaceSize                               | 默认 :128m                       |
+| JVM_MMS                                            | -XX:MaxMetaspaceSize                            | 默认 :320m                       |
+| SENTINEL_DEBUG                                     | 是否开启远程DEBUG                                 | y/n 默认 :n                      |
+| TOMCAT_ACCESSLOG_ENABLED                           | server.tomcat.accesslog.enabled                 | 默认 :false                      |
+| SENTINEL_DASHBOARD_COOKIE                          |  cookie name setting                            | 默认 :sentinel_dashboard_cookie  |
 
+
+参考例子: [sentinel-dashboard.yaml](https://github.com/solvaysphere/sentinel-dashboard-docker/blob/master/example/sentinel-dashboard.yaml)
 
